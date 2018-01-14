@@ -25,13 +25,60 @@ void insertionSort(int arr[], int n)
     }
 }
 
+//probability density function, BECAUSE C DOESN'T HAVE THIS
+double percentile(int x, double mean, double sd)
+{
+    return pow(M_E, -(pow(x-mean,2)/(2*sd*sd))) / sqrt(2 * M_PI * sd * sd);
+}
+
+//Calculate approximate index of value in a normal dataset
+int approxIndex(int val, int size, double mean, double sd)
+{
+    return percentile(val, mean, sd) * size;
+}
+
+double calcMean(int arr[], int n)
+{
+    double sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        sum += arr[i];
+    }
+    return sum / n;
+}
+
+double calcSD(int arr[], int n, double mean)
+{
+    double ssq = 0;
+    for (int i = 0; i < n; i++)
+    {
+        ssq += pow((arr[i] - mean), 2);
+    }
+    return sqrt(ssq/n);
+}
+
 int *normalSort(int arr[], int n)
 {
     int *out = calloc(n, sizeof(int));
 
+    int mean =  calcMean(arr, n);
+    int sd = calcSD(arr, n, mean);
+
     for (int i = 0; i < n; i++)
     {
+        int idx;
 
+        //sets idx to the nearest (ish) open slot
+        for (idx = approxIndex(arr[i], n, mean, sd); out[idx] != 0; idx++)
+        {
+            if (idx == n-1)
+            {
+                for(idx = idx; out[idx] != 0; idx--);
+            }
+        }
+
+        out[idx] = arr[i];
+                
     }
 
     insertionSort(out, n);
