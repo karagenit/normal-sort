@@ -5,7 +5,7 @@
 
 #define R_SAMPLES 1000
 #define R_MAX 1000
-#define ELEMS 10000
+#define ELEMS 100000
 
 void insertionSort(int arr[], int n)
 {
@@ -120,19 +120,19 @@ void main()
     printArray(arr, ELEMS);
 
     printf("For array of size %d with elements 0 to %d:\n", ELEMS, R_MAX);
-    struct timespec start, end;
+    clock_t start, end;
 
-    clock_gettime(CLOCK_MONOTONIC, &start);
+    start = clock();
     insertionSort(arr, ELEMS);
-    clock_gettime(CLOCK_MONOTONIC, &end);
+    end = clock();
     printArray(arr, ELEMS);
-    printf("Insertion sort took %d ns\n", end.tv_nsec - start.tv_nsec);
+    printf("Insertion sort took %d ms\n", (end/1000) - (start/1000));
 
     fillGaussian(arr, ELEMS);
-    clock_gettime(CLOCK_MONOTONIC, &start);
+    start = clock();
     int *norm = normalSort(arr, ELEMS);
-    clock_gettime(CLOCK_MONOTONIC, &end);
+    end = clock();
     printArray(norm, ELEMS);
     free(norm);
-    printf("Normal sort took %d ns\n", end.tv_nsec - start.tv_nsec);
+    printf("Normal sort took %d ms\n", (end/1000) - (start/1000));
 }
