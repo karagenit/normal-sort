@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 #define R_SAMPLES 1000
 #define R_MAX 1000
@@ -118,11 +119,20 @@ void main()
     fillGaussian(arr, ELEMS);
     printArray(arr, ELEMS);
 
+    printf("For array of size %d with elements 0 to %d:\n", ELEMS, R_MAX);
+    struct timespec start, end;
+
+    clock_gettime(CLOCK_MONOTONIC, &start);
     insertionSort(arr, ELEMS);
+    clock_gettime(CLOCK_MONOTONIC, &end);
     printArray(arr, ELEMS);
+    printf("Insertion sort took %d ns\n", end.tv_nsec - start.tv_nsec);
 
     fillGaussian(arr, ELEMS);
+    clock_gettime(CLOCK_MONOTONIC, &start);
     int *norm = normalSort(arr, ELEMS);
+    clock_gettime(CLOCK_MONOTONIC, &end);
     printArray(norm, ELEMS);
     free(norm);
+    printf("Normal sort took %d ns\n", end.tv_nsec - start.tv_nsec);
 }
