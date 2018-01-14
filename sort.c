@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define R_SAMPLES 1000
-#define R_MAX 1000
+#define R_MAX 100
 #define ELEMS 100000
 
 void insertionSort(int arr[], int n)
@@ -33,7 +33,7 @@ double percentile(int x, double mean, double sd)
 }
 
 //Calculate approximate index of value in a normal dataset
-int approxIndex(int val, int size, double mean, double sd)
+long approxIndex(int val, long size, double mean, double sd)
 {
     return percentile(val, mean, sd) * size;
 }
@@ -67,7 +67,7 @@ int *normalSort(int arr[], int n)
 
     for (int i = 0; i < n; i++)
     {
-        int idx;
+        long idx;
 
         //sets idx to the nearest (ish) open slot
         for (idx = approxIndex(arr[i], n, mean, sd); out[idx] != 0; idx++)
@@ -75,6 +75,7 @@ int *normalSort(int arr[], int n)
             if (idx == n-1)
             {
                 for(idx = idx; out[idx] != 0; idx--);
+                break;
             }
         }
 
