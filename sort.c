@@ -4,7 +4,7 @@
 
 #define R_SAMPLES 1000
 #define R_MAX 1000
-#define ELEMS 100 //make 10k
+#define ELEMS 10000
 
 void insertionSort(int arr[], int n)
 {
@@ -25,12 +25,25 @@ void insertionSort(int arr[], int n)
     }
 }
 
+int *normalSort(int arr[], int n)
+{
+    int *out = calloc(n, sizeof(int));
+
+    for (int i = 0; i < n; i++)
+    {
+
+    }
+
+    insertionSort(out, n);
+    return out;
+}
+
 int generateNormal()
 {
     int sum = 0;
     for (int i = 0; i < R_SAMPLES; i++)
     {
-        sum += rand() % R_MAX;
+        sum += (rand() % R_MAX) + 1;
     }
     return sum / R_SAMPLES;
 }
@@ -45,7 +58,7 @@ void fillGaussian(int arr[], int count)
 
 void printArray(int arr[], int n)
 {
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < 20; i++)
     {
         printf("%d ", arr[i]);
     }
@@ -60,4 +73,9 @@ void main()
 
     insertionSort(arr, ELEMS);
     printArray(arr, ELEMS);
+
+    fillGaussian(arr, ELEMS);
+    int *norm = normalSort(arr, ELEMS);
+    printArray(norm, ELEMS);
+    free(norm);
 }
