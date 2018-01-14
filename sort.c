@@ -43,14 +43,21 @@ void fillGaussian(int arr[], int count)
     }
 }
 
+void printArray(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    putchar('\n');
+}
+
 void main()
 {
     int arr[ELEMS];
     fillGaussian(arr, ELEMS);
-    insertionSort(arr, ELEMS);
+    printArray(arr, ELEMS);
 
-    for (int i = 0; i < ELEMS; i++)
-    {
-        printf("%d\n", arr[i]);
-    }
+    insertionSort(arr, ELEMS);
+    printArray(arr, ELEMS);
 }
